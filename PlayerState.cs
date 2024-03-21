@@ -33,6 +33,8 @@ public class PlayerState : MonoBehaviour
     {
         Debug.Log(gameObject.name + " current health: " + health);
         health -= damageAmount;
+        
+        // damage taken from enemies
         if (health <= 0)
         {
             Debug.Log(gameObject.name + " now has been destroyed.");
@@ -42,6 +44,9 @@ public class PlayerState : MonoBehaviour
         {
             Debug.Log(gameObject.name + " now has " + health + "  health.");
         }
+
+        // damage taken from obstacles
+        // write code here
     }
 
     // when collides with object, take away player health
