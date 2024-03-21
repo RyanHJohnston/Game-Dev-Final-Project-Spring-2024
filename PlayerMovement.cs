@@ -14,38 +14,24 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float jumpTimeCounter;
     [SerializeField] float fallMultiplier = 2.5f;
     [SerializeField] float lowJumpMultiplier= 2f;
+    [SerializeField] float gravityScale = 2f;
+    [SerializeField] bool canDoubleJump;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        rb.gravityScale = gravityScale;
     }
 
     void Update()
     {
         Vector3 moveDirection = Vector3.zero;
+                
+        // uncomment to enable double jump, comment out InfiniteJump()
+        /* DoubleJump(); */
 
-        // player can only jump!
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded == true)
-        {
-            /* rb.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse); */
-            isGrounded = false;
-            isJumping = true;
-            jumpTimeCounter = maxJumpTime;
-            rb.velocity = Vector2.up * jumpForce;
-        }
-
-        if (Input.GetKey(KeyCode.Space) && isJumping == true)
-        {
-            if (jumpTimeCounter > 0)
-            {
-                rb.velocity += Vector2.up * extraJumpForce * Time.deltaTime;
-                jumpTimeCounter -= Time.deltaTime;
-            }
-            else
-            {
-                isJumping = false;
-            }
-        }
+        // uncomment to enable infinite jumps, comment out DoubleJump()
+        InfiniteJump();
 
         if (Input.GetKeyUp(KeyCode.Space))
         {
@@ -95,6 +81,55 @@ public class PlayerMovement : MonoBehaviour
 
         rb.velocity = moveDirection.normalized * moveSpeed;
     }
+    
+    // allows player to double jump
+    void DoubleJump()
+    {
+        // add double jump!
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (isGrounded)
+            {
+                // regular jump
+                rb.velocity = Vector2.up * jumpForce;
+                isGrounded = false;
+                canDoubleJump = true;
+            }
+            else if (canDoubleJump)
+            {
+                rb.velocity = Vector2.up * jumpForce;
+                canDoubleJump = false;
+            }
+        }
+
+    }
+
+    // allows player to have infinite amount of jumps
+    void InfiniteJump()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            rb.velocity = Vector2.up * jumpForce;
+            jumpTimeCounter = maxJumpTime;
+            isJumping = true;
+        }
+
+
+        if (Input.GetKey(KeyCode.Space) && isJumping == true)
+        {
+            if (jumpTimeCounter > 0)
+            {
+                rb.velocity += Vector2.up * extraJumpForce * Time.deltaTime;
+                jumpTimeCounter -= Time.deltaTime;
+            }
+            else
+            {
+                isJumping = false;
+            }
+        }
+        
+        
+    }
 
     // check if the player collides with the ground
     void OnCollisionEnter2D(Collision2D collision)
@@ -102,6 +137,7 @@ public class PlayerMovement : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             isGrounded = true;
+            canDoubleJump = false;
         }
     }
 

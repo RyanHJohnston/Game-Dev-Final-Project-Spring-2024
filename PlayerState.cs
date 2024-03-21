@@ -11,7 +11,7 @@ public class PlayerState : MonoBehaviour
     // player physics
     private Rigidbody2D rb;
     private BoxCollider2D box;
-    
+
     // player state
     [SerializeField] bool isDead;
 
@@ -27,7 +27,7 @@ public class PlayerState : MonoBehaviour
     {
 
     }
-   
+
 
     public void TakeDamage(int damageAmount)
     {
@@ -52,5 +52,6 @@ public class PlayerState : MonoBehaviour
             TakeDamage(damage);
         }
     }
+
 
 }
