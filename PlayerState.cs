@@ -7,27 +7,30 @@ public class PlayerState : MonoBehaviour
     // player properties
     [SerializeField] int health = 100;
     [SerializeField] int damage = 25;
+    [SerializeField] int totalCoinValue;
+    [SerializeField] int coinValue = 25;
 
     // player physics
     private Rigidbody2D rb;
     private BoxCollider2D box;
 
+    public TextMesh coinText;
+
     // player state
     [SerializeField] bool isDead;
+
+    void Awake()
+    {
+        totalCoinValue = 0;
+    }
 
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        /* box = GetComponent<BoxCollider2D>(); */
+        box = GetComponent<BoxCollider2D>();
     }
-
-    void Update()
-    {
-
-    }
-
 
     public void TakeDamage(int damageAmount)
     {
@@ -49,14 +52,38 @@ public class PlayerState : MonoBehaviour
         // write code here
     }
 
-    // when collides with object, take away player health
+    /*
+     * Add coin method here
+     */
+    public void AddCoin(int coinValue)
+    {
+        Debug.Log(gameObject.name + " total coins: " + totalCoinValue);
+        totalCoinValue += coinValue;
+    }
+    
+
+    /// <summary>
+    /// If "Event", change player state.
+    /// This applies to gold coins, power-ups, enemies, and objects.
+    /// <param name="collision">[TODO:description]</param>
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Enemy")
+        if (collision.gameObject.CompareTag("Enemy") ||
+                collision.gameObject.CompareTag("StonePillarTop") ||
+                collision.gameObject.CompareTag("StonePillarBottom"))
         {
             TakeDamage(damage);
+            transform.position = new Vector3(-5.511f, -4.106f, 0);
+
+        }
+
+        if (collision.gameObject.CompareTag("GoldCoin"))
+        {
+            AddCoin(coinValue);
         }
     }
+
+
 
 
 }

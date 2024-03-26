@@ -5,30 +5,32 @@ public class ObstacleTopSpawner : MonoBehaviour
 {
     public GameObject obstacleTopObject; // The prefab to spawn
     public float spawnInterval = 2f; // Time between each spawn
-    private Coroutine spawnCoroutine; // Reference to the spawning coroutine
     public Transform objectLocation;
-    public float minHeight = 4.0f;
-    public float maxHeight = 8.0f;
-    public Rigidbody2D object2D;
-
+    public float defaultX = 0.2331112f;
+    public float defaultY = 0.2543209f;
+    private float spawnX = 11.41f;
+    private float spawnY = 3.87f;
+    public Rigidbody2D rb;
+    
     void Start()
     {
-        object2D = GetComponent<Rigidbody2D>();
-        InvokeRepeating("Spawn", 1.5f, 150f);
+        rb = GetComponent<Rigidbody2D>();
+        InvokeRepeating("Spawn", 2.0f, 150f);
     }
 
     public void Spawn()
     {
-        Vector3 bottomRight = new Vector3(11.4f, 4.41f, 0); // z is set to 0 for 2D
-        float randomHeight = Random.Range(minHeight, maxHeight);
-
-        obstacleTopObject.transform.localScale = new Vector3(
-                obstacleTopObject.transform.localScale.x,
-                randomHeight,
-                obstacleTopObject.transform.localScale.z);
-
-        Instantiate(obstacleTopObject, bottomRight, Quaternion.identity);
+        Vector3 spawnLocation = new Vector3(spawnX, spawnY, 0);
+        float scaleMultiplier = Random.Range(1.0f, 2.0f);
+        transform.localScale = new Vector3(defaultX * scaleMultiplier, defaultY * scaleMultiplier, 1);
+        Instantiate(obstacleTopObject, spawnLocation, Quaternion.identity);
     }
+
+    /* public void Spawn() */
+    /* { */
+    /*     float scaleMultiplier = Random.Range(1.0f, 2.0f); */
+    /*     transform.localScale = new Vector3(defaultX * scaleMultiplier, defaultY * scaleMultiplier, 1); */
+    /* } */
 
     void OnCollisionEnter2D(Collision2D collision)
     {
@@ -38,5 +40,3 @@ public class ObstacleTopSpawner : MonoBehaviour
         }
     }
 }
-
-

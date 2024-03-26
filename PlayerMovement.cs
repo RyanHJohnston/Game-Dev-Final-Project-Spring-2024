@@ -22,7 +22,7 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         rb.gravityScale = gravityScale;
     }
-
+    
     void Update()
     {
         Vector3 moveDirection = Vector3.zero;
@@ -127,8 +127,6 @@ public class PlayerMovement : MonoBehaviour
                 isJumping = false;
             }
         }
-        
-        
     }
 
     // check if the player collides with the ground

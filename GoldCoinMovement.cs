@@ -4,15 +4,11 @@ using UnityEngine;
 
 public class GoldCoinMovement : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] float movementSpeed = 5.0f;
 
-    // Update is called once per frame
     void Update()
     {
-        
+        transform.position += Vector3.left * movementSpeed * Time.deltaTime; 
     }
+
 }
