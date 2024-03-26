@@ -10,16 +10,11 @@ public class ObstacleBottomSpawner : MonoBehaviour
     public float minHeight = 4.0f;
     public float maxHeight = 8.0f;
     public Rigidbody2D object2D;
-
+    
     void Start()
     {
         object2D = GetComponent<Rigidbody2D>();
         InvokeRepeating("Spawn", 2.0f, 150f);
-    }
-
-    void Update()
-    {
-
     }
 
     public void Spawn()
