@@ -138,5 +138,5 @@ public class PlayerMovement : MonoBehaviour
             canDoubleJump = false;
         }
     }
-
+    
 }

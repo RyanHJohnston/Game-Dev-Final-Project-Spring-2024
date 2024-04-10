@@ -3,15 +3,16 @@ using UnityEngine;
 
 public class ObstacleBottomSpawner : MonoBehaviour
 {
-    public GameObject obstacleBottomObject; // The prefab to spawn
-    public float spawnInterval = 2f; // Time between each spawn
-    public Transform objectLocation;
-    public float defaultX = 0.2331112f;
-    public float defaultY = 0.2543209f;
+    [SerializeField] GameObject obstacleBottomObject; // The prefab to spawn
+    [SerializeField] float spawnInterval = 2f; // Time between each spawn
+    [SerializeField] Transform objectLocation;
+    [SerializeField] float defaultX = 0.2331112f;
+    [SerializeField] float defaultY = 0.2543209f;
+    [SerializeField] Rigidbody2D rb;
+    
     private float spawnX = 11.41f;
     private float spawnY = -3.893f;
-    public Rigidbody2D rb;
-    
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -25,12 +26,6 @@ public class ObstacleBottomSpawner : MonoBehaviour
         transform.localScale = new Vector3(defaultX * scaleMultiplier, defaultY * scaleMultiplier, 1);
         Instantiate(obstacleBottomObject, spawnLocation, Quaternion.identity);
     }
-
-    /* public void Spawn() */
-    /* { */
-    /*     float scaleMultiplier = Random.Range(1.0f, 2.0f); */
-    /*     transform.localScale = new Vector3(defaultX * scaleMultiplier, defaultY * scaleMultiplier, 1); */
-    /* } */
 
     void OnCollisionEnter2D(Collision2D collision)
     {
