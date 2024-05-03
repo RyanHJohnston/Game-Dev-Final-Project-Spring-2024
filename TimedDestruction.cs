@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TimedDestruction : MonoBehaviour
 {
-    public float lifetime = 5.0f; // Time in seconds after which the object will be destroyed
+    public float lifetime = 10.0f; // Time in seconds after which the object will be destroyed
 
     void Start()
     {
