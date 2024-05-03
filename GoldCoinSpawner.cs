@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-
 public class GoldCoinSpawner : MonoBehaviour
 {
     public GameObject goldCoinObject;
     public float spawnInterval = 2f;
     public Rigidbody2D rb;
-
+    public float xAxisSpawn = 11.30f;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -19,7 +19,7 @@ public class GoldCoinSpawner : MonoBehaviour
     
     public void Spawn()
     {
-        Vector3 spawnLocation = new Vector3(11.30f, Random.Range(-4.45f, 4.45f), 0);
+        Vector3 spawnLocation = new Vector3(Random.Range(xAxisSpawn, xAxisSpawn + 10), Random.Range(3f, -3f), 0);
         Instantiate(goldCoinObject, spawnLocation, Quaternion.identity);
     }
 
