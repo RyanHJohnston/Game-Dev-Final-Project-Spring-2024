@@ -1,34 +1,40 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectPooler : MonoBehaviour
+public class ObjectPool : MonoBehaviour
 {
-    public static ObjectPooler Instance;
-    public GameObject pooledObjectPrefab;
-    public int poolSize = 5;
-    private List<GameObject> pooledObjects;
+    [SerializeField] private GameObject prefab;
+    [SerializeField] private int poolSize = 10;
+    private Queue<GameObject> objectPool = new Queue<GameObject>();
 
     void Awake()
     {
-        Instance = this;
-        pooledObjects = new List<GameObject>();
         for (int i = 0; i < poolSize; i++)
         {
-            GameObject obj = Instantiate(pooledObjectPrefab);
+            GameObject obj = Instantiate(prefab);
             obj.SetActive(false);
-            pooledObjects.Add(obj);
+            objectPool.Enqueue(obj);
         }
     }
 
     public GameObject GetPooledObject()
     {
-        foreach (var obj in pooledObjects)
+        if (objectPool.Count > 0)
         {
-            if (!obj.activeInHierarchy)
-            {
-                return obj;
-            }
+            GameObject obj = objectPool.Dequeue();
+            obj.SetActive(true);
+            return obj;
         }
-        return null;  // Return null if all objects are currently active
+        else
+        {
+            GameObject obj = Instantiate(prefab);
+            return obj;
+        }
+    }
+
+    public void ReturnObjectToPool(GameObject obj)
+    {
+        obj.SetActive(false);
+        objectPool.Enqueue(obj);
     }
 }

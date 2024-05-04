@@ -5,10 +5,13 @@ using UnityEngine;
 public class PlayerState : MonoBehaviour
 {
     // player properties
-    [SerializeField] int health = 100;
+    [SerializeField] int totalHealth = 100;
+    [SerializeField] int addedHealth = 10;
+    [SerializeField] int maxHealth = 100;
     [SerializeField] int damage = 25;
     [SerializeField] int totalCoinValue;
     [SerializeField] int coinValue = 25;
+    
 
     // player physics
     private Rigidbody2D rb;
@@ -34,18 +37,18 @@ public class PlayerState : MonoBehaviour
 
     public void TakeDamage(int damageAmount)
     {
-        Debug.Log(gameObject.name + " current health: " + health);
-        health -= damageAmount;
+        Debug.Log(gameObject.name + " current health: " + totalHealth);
+        totalHealth -= damageAmount;
         
         // damage taken from enemies
-        if (health <= 0)
+        if (totalHealth <= 0)
         {
             Debug.Log(gameObject.name + " now has been destroyed.");
             Destroy(gameObject);
         } 
         else
         {
-            Debug.Log(gameObject.name + " now has " + health + "  health.");
+            Debug.Log(gameObject.name + " now has " + totalHealth + "  health.");
         }
 
         // damage taken from obstacles
@@ -60,7 +63,13 @@ public class PlayerState : MonoBehaviour
         Debug.Log(gameObject.name + " total coins: " + totalCoinValue);
         totalCoinValue += coinValue;
     }
-    
+
+    public void AddHealth(int addedHealth)
+    {
+        Debug.Log(gameObject.name + "Health Gained: " + addedHealth);
+        totalHealth += addedHealth;        
+    }
+
 
     /// <summary>
     /// If "Event", change player state.
@@ -81,6 +90,21 @@ public class PlayerState : MonoBehaviour
         {
             AddCoin(coinValue);
         }
+
+        if (collision.gameObject.CompareTag("HealthGain"))
+        {
+            if ((totalHealth + addedHealth) > maxHealth)
+            {
+                Debug.Log("Max Health Reached");
+            } 
+            else
+            {
+                Debug.Log("Health Gained: " + addedHealth);
+                Debug.Log("Total Health: " + totalHealth);
+
+            }                 
+        }
+
     }
 
 

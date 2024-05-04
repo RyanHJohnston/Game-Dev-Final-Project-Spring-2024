@@ -13,6 +13,13 @@ public class EnemyState : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         box = GetComponent<BoxCollider2D>();    
+    
+        if (rb != null)
+        {
+            rb.constraints = RigidbodyConstraints2D.FreezePositionX | 
+            RigidbodyConstraints2D.FreezePositionY |
+            RigidbodyConstraints2D.FreezeRotation;
+        } 
     }
 
     // Update is called once per frame
