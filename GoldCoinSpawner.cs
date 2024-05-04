@@ -6,14 +6,14 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Analytics;
 
-public class ObjectSpawner : MonoBehaviour
+public class GoldCoinSpawner : MonoBehaviour
 {
     [SerializeField] private float spawnRate = 1f;
     [SerializeField] GameObject[] spawnerPrefab;
     [SerializeField] private bool canSpawn = true;
     [SerializeField] float minSpawnRate = 2.0f;
     [SerializeField] float maxSpawnRate = 4.0f;
-
+    
     void Start()
     {
         StartCoroutine(Spawner());
@@ -39,5 +39,3 @@ public class ObjectSpawner : MonoBehaviour
 
 
 }
-
-

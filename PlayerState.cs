@@ -101,7 +101,7 @@ public class PlayerState : MonoBehaviour
             {
                 Debug.Log("Health Gained: " + addedHealth);
                 Debug.Log("Total Health: " + totalHealth);
-
+                AddHealth(addedHealth);
             }                 
         }
 

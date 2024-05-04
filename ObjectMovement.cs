@@ -8,7 +8,7 @@ public class ObjectMovement : MonoBehaviour
 
     void Awake()
     {
-        movementSpeed = Random.Range(5f, 10f);
+        movementSpeed = 5f;
     }
 
     void Update()
