@@ -12,16 +12,11 @@ public class PlayerState : MonoBehaviour
     [SerializeField] public int damage = 25;
     [SerializeField] public int totalCoinValue;
     [SerializeField] public int coinValue = 25;
-    
+    [SerializeField] public bool isInvincible = false;
+    [SerializeField] public bool isDead = false;
 
-    // player physics
     private Rigidbody2D rb;
     private BoxCollider2D box;
-
-    public TextMesh coinText;
-
-    // player state
-    [SerializeField] bool isDead;
 
     void Awake()
     {
@@ -38,6 +33,12 @@ public class PlayerState : MonoBehaviour
 
     public void TakeDamage(int damageAmount)
     {
+        if (isInvincible)
+        {
+            Debug.Log(gameObject.name + " is invincible and cannot take damage");
+            return;
+        }
+
         Debug.Log(gameObject.name + " current health: " + totalHealth);
         totalHealth -= damageAmount;
         
@@ -46,19 +47,14 @@ public class PlayerState : MonoBehaviour
         {
             Debug.Log(gameObject.name + " now has been destroyed.");
             Destroy(gameObject);
+            isDead = true;
         } 
         else
         {
             Debug.Log(gameObject.name + " now has " + totalHealth + "  health.");
         }
-
-        // damage taken from obstacles
-        // write code here
     }
 
-    /*
-     * Add coin method here
-     */
     public void AddCoin(int coinValue)
     {
         Debug.Log(gameObject.name + " total coins: " + totalCoinValue);
@@ -82,8 +78,6 @@ public class PlayerState : MonoBehaviour
                 collision.gameObject.CompareTag("StonePillarBottom"))
         {
             TakeDamage(damage);
-            transform.position = new Vector3(-5.511f, -4.106f, 0);
-
         }
 
         if (collision.gameObject.CompareTag("GoldCoin"))
@@ -99,15 +93,23 @@ public class PlayerState : MonoBehaviour
             } 
             else
             {
-                Debug.Log("Health Gained: " + addedHealth);
-                Debug.Log("Total Health: " + totalHealth);
                 AddHealth(addedHealth);
             }                 
         }
 
+        if (collision.gameObject.CompareTag("Invincibility"))
+        
+        {
+            StartCoroutine(BecomeInvincible(10));
+        }
+
     }
 
-
-
+    public IEnumerator BecomeInvincible(float duration)
+    {
+        isInvincible = true;
+        yield return new WaitForSeconds(duration);
+        isInvincible = false;
+    }
 
 }

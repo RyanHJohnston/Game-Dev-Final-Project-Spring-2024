@@ -9,52 +9,61 @@ using UnityEngine.UI;
 
 public class PlayerUI : MonoBehaviour
 {
-    [SerializeField] public TMP_Text playerHealthUIText;
-    [SerializeField] public TMP_Text playerScoreUIText;
-    [SerializeField] public TMP_Text playerTimeUIText;
+    [SerializeField] public TMP_Text playerHealthUI;
+    [SerializeField] public TMP_Text playerScoreUI;
+    [SerializeField] public TMP_Text playerTimeUI;
+    [SerializeField] public TMP_Text playerInvincibilityUI;
+    [SerializeField] public TMP_Text gameOverUI;
     [SerializeField] public PlayerState playerState;
-    private float timer = 0;
-    private int count = 0;
-    private int minuteCount = 0;
+    private float invincibilityTimeRemaining = 10f;
+    private float timer = 0f;
+    private float totalTime = 0f;
 
     void Start()
     {
-        playerHealthUIText.text = "Health: " + playerState.totalHealth.ToString();
-        playerScoreUIText.text = "Score: " + playerState.totalCoinValue.ToString();
-        playerTimeUIText.text = "Time: 00:00";
-
+        playerHealthUI.text = "Health: " + playerState.totalHealth.ToString();
+        playerScoreUI.text = "Score: " + playerState.totalCoinValue.ToString();
+        playerTimeUI.text = "Time: 00:00";
+        playerInvincibilityUI.text = "";
+        gameOverUI.text = "";
     }
 
     void Update()
     {
-        playerHealthUIText.text = "Health: " + playerState.totalHealth.ToString();
-        playerScoreUIText.text = "Score " + playerState.totalCoinValue.ToString();
+        playerHealthUI.text = "Health: " + playerState.totalHealth.ToString();
+        playerScoreUI.text = "Score " + playerState.totalCoinValue.ToString();
         timer += Time.deltaTime;
         if (timer >= 1f)
         {
-            playerTimeUIText.text = "Time: " + Time.realtimeSinceStartup;
-
-            // if (count < 10)
-            // {
-            //     playerTimeUIText.text = "Time: 00:0" + count++;
-            //     timer = 0;
-            // }
-
-            // if (count >= 10)
-            // {
-            //     playerTimeUIText.text = "Time 00:" + count++;
-            //     timer = 0;
-            // }
-
-            // if (count > 59)
-            // {
-            //     count = 0;
-            //     minuteCount++;
-            //     playerTimeUIText.text = "Time 0:" + minuteCount + ":" + 
-            // }
+            playerTimeUI.text = "Time: " + Time.realtimeSinceStartup.ToString("F1") + "s";
         }
 
+        if (playerState.isInvincible)
+        {
+            if (invincibilityTimeRemaining > 0 && playerState.isInvincible)
+            {
+                Debug.Log("[TIMER] Invincibility Seconds Remaining: " + invincibilityTimeRemaining);
+                Debug.Log("[TIMER] Player Invincibility Bool: " + playerState.isInvincible);
+                playerInvincibilityUI.text = "Invincibility " + invincibilityTimeRemaining.ToString("F0") + "s";
+                invincibilityTimeRemaining -= Time.deltaTime;
+            }
+            else
+            {
+                Debug.Log("[TIMER] Invincibility time has run out!");
+                Debug.Log("[TIMER] Player Invincibility State: " + playerState.isInvincible);
+                invincibilityTimeRemaining = 10f;
+                playerInvincibilityUI.text = "";
+            }
+        
+        }
+
+        if (playerState.isDead)
+        {
+            gameOverUI.text = "GAME OVER";
+        }
     }
+
+    
 
 
 }

@@ -7,13 +7,16 @@ public class RegeneratePlayerHealth : MonoBehaviour
     [SerializeField] public PlayerState playerState;
     [SerializeField] public int healthRegenerationCount = 1;
     [SerializeField] public int seconds = 1;
+    [SerializeField] public bool isRegenerating;
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("HealthRegen") && !IsInvoking("RegenerateHealth") && playerState.totalHealth < playerState.maxHealth)
         {
+            isRegenerating = true;
             InvokeRepeating("RegenerateHealth", 0f, 1f);
             Invoke("StopRegeneration", 10);
+            isRegenerating = false;
         }
     }
 
