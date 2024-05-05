@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ObjectMovement : MonoBehaviour
 {
-    [SerializeField] float movementSpeed = 5.0f;
+    public float movementSpeed = 5.0f;
 
     void Awake()
     {

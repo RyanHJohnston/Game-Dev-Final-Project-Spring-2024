@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 
 public class PlayerMovement : MonoBehaviour
@@ -51,7 +52,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // uncomment to allow player to move in all directions to test collisions
-        /* MovePlayer(); */
+        // MovePlayer();
 
     }
 
@@ -62,22 +63,22 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetKey(KeyCode.S))
         {
-            moveDirection.y = -1;
+            moveDirection.y -= 1;
         }
 
         if (Input.GetKey(KeyCode.D))
         {
-            moveDirection.x = 1;
+            moveDirection.x += 1;
         }
 
         if (Input.GetKey(KeyCode.W))
         {
-            moveDirection.y = 1;
+            moveDirection.y -= 1;
         }
 
         if (Input.GetKey(KeyCode.A))
         {
-            moveDirection.x = -1;
+            moveDirection.x += 1;
         }
 
         rb.velocity = moveDirection.normalized * moveSpeed;

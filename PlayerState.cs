@@ -5,12 +5,13 @@ using UnityEngine;
 public class PlayerState : MonoBehaviour
 {
     // player properties
-    [SerializeField] int totalHealth = 100;
-    [SerializeField] int addedHealth = 10;
-    [SerializeField] int maxHealth = 100;
-    [SerializeField] int damage = 25;
-    [SerializeField] int totalCoinValue;
-    [SerializeField] int coinValue = 25;
+    [SerializeField] public int totalHealth = 100;
+    [SerializeField] public int addedHealth = 10;
+    [SerializeField] public int healthRegenCount = 1;
+    [SerializeField] public int maxHealth = 100;
+    [SerializeField] public int damage = 25;
+    [SerializeField] public int totalCoinValue;
+    [SerializeField] public int coinValue = 25;
     
 
     // player physics
@@ -69,7 +70,6 @@ public class PlayerState : MonoBehaviour
         Debug.Log(gameObject.name + "Health Gained: " + addedHealth);
         totalHealth += addedHealth;        
     }
-
 
     /// <summary>
     /// If "Event", change player state.
