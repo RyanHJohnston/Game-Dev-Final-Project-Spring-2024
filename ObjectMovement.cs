@@ -9,11 +9,17 @@ public class ObjectMovement : MonoBehaviour
     void Awake()
     {
         movementSpeed = 5f;
+        if (gameObject.tag == "Bat")
+        {
+            movementSpeed += 5f;
+        }
     }
 
     void Update()
     {
         transform.position += Vector3.left * movementSpeed * Time.deltaTime; 
     }
+
+
 
 }

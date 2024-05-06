@@ -75,7 +75,8 @@ public class PlayerState : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy") ||
                 collision.gameObject.CompareTag("StonePillarTop") ||
-                collision.gameObject.CompareTag("StonePillarBottom"))
+                collision.gameObject.CompareTag("StonePillarBottom") ||
+                collision.gameObject.CompareTag("Bat"))
         {
             TakeDamage(damage);
         }
