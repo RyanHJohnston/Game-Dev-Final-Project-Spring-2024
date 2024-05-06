@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerState : MonoBehaviour
@@ -14,6 +15,17 @@ public class PlayerState : MonoBehaviour
     [SerializeField] public int coinValue = 25;
     [SerializeField] public bool isInvincible = false;
     [SerializeField] public bool isDead = false;
+
+    /* Audio */
+    [SerializeField] public AudioSource playerAudioSource;
+    [SerializeField] public AudioClip playerCoinSoundEffect;
+    [SerializeField] public AudioClip playerDamageSoundEffect;
+    [SerializeField] public AudioClip playerHealthGainSoundEffect;
+    [SerializeField] public AudioClip playerHealthRegenSoundEffect;
+    [SerializeField] public AudioClip playerHealthMaxReached;
+    [SerializeField] public AudioClip playerInvincibilitySoundEffect;
+    [SerializeField] public AudioClip playerDeathSoundEffect;
+
 
     private Rigidbody2D rb;
     private BoxCollider2D box;
@@ -41,14 +53,16 @@ public class PlayerState : MonoBehaviour
 
         Debug.Log(gameObject.name + " current health: " + totalHealth);
         totalHealth -= damageAmount;
-        
+
         // damage taken from enemies
         if (totalHealth <= 0)
         {
             Debug.Log(gameObject.name + " now has been destroyed.");
+            playerAudioSource.clip = playerDeathSoundEffect;
+            playerAudioSource.Play();
             Destroy(gameObject);
             isDead = true;
-        } 
+        }
         else
         {
             Debug.Log(gameObject.name + " now has " + totalHealth + "  health.");
@@ -64,7 +78,7 @@ public class PlayerState : MonoBehaviour
     public void AddHealth(int addedHealth)
     {
         Debug.Log(gameObject.name + "Health Gained: " + addedHealth);
-        totalHealth += addedHealth;        
+        totalHealth += addedHealth;
     }
 
     /// <summary>
@@ -78,11 +92,15 @@ public class PlayerState : MonoBehaviour
                 collision.gameObject.CompareTag("StonePillarBottom") ||
                 collision.gameObject.CompareTag("Bat"))
         {
+            playerAudioSource.clip = playerDamageSoundEffect;
+            playerAudioSource.Play();
             TakeDamage(damage);
         }
 
         if (collision.gameObject.CompareTag("GoldCoin"))
         {
+            playerAudioSource.clip = playerCoinSoundEffect;
+            playerAudioSource.Play(); 
             AddCoin(coinValue);
         }
 
@@ -91,17 +109,22 @@ public class PlayerState : MonoBehaviour
             if ((totalHealth + addedHealth) > maxHealth)
             {
                 Debug.Log("Max Health Reached");
-            } 
+            }
             else
             {
                 AddHealth(addedHealth);
-            }                 
+            }
+
+            playerAudioSource.clip = playerHealthGainSoundEffect;
+            playerAudioSource.Play();
         }
 
         if (collision.gameObject.CompareTag("Invincibility"))
-        
         {
+            playerAudioSource.clip = playerInvincibilitySoundEffect;
+            playerAudioSource.Play();
             StartCoroutine(BecomeInvincible(10));
+            
         }
 
     }

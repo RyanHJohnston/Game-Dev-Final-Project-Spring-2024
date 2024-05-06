@@ -21,6 +21,10 @@ public class PlayerMovement : MonoBehaviour
     private Collision2D collision;
     public Animator animator;
 
+    /* audio */
+    [SerializeField] public AudioSource playerSoundSource;
+    [SerializeField] public AudioClip playerSoundJump;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -100,6 +104,7 @@ public class PlayerMovement : MonoBehaviour
                 rb.velocity = Vector2.up * jumpForce;
                 isGrounded = false;
                 canDoubleJump = true;
+                
             }
             else if (canDoubleJump)
             {
@@ -119,6 +124,8 @@ public class PlayerMovement : MonoBehaviour
                 jumpTimeCounter = maxJumpTime;
                 isJumping = true;
                 animator.SetBool("IsJumping", true);
+                playerSoundSource.clip = playerSoundJump;
+                playerSoundSource.Play();
             }
 
 

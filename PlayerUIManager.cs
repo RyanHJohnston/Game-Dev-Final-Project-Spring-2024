@@ -31,11 +31,11 @@ public class PlayerUIManager : MonoBehaviour
     void Update()
     {
         playerHealthUI.text = "Health: " + playerState.totalHealth.ToString();
-        playerScoreUI.text = "Score " + playerState.totalCoinValue.ToString();
+        playerScoreUI.text = "Score: " + playerState.totalCoinValue.ToString();
         timer += Time.deltaTime;
         if (timer >= 1f)
         {
-            playerTimeUI.text = "Time: " + Time.realtimeSinceStartup.ToString("F1") + "s";
+            playerTimeUI.text = "Time: " + Time.timeSinceLevelLoad.ToString("F1") + "s";
         }
 
         if (playerState.isInvincible)
@@ -57,10 +57,6 @@ public class PlayerUIManager : MonoBehaviour
         
         }
 
-        if (playerState.isDead)
-        {
-            gameOverUI.text = "GAME OVER";
-        }
     }
 
     

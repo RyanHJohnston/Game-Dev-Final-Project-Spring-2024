@@ -5,16 +5,13 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class UIManager : MonoBehaviour
+public class MenuNavigationUI : MonoBehaviour
 {
 
 	GameObject[] pauseObjects;
 	GameObject[] gameOverObjects;
-	[SerializeField] public PlayerUIManager playerUIManager;
 	private static int previousSceneIndex = -1;
 	private static int currentSceneIndex;
-	[SerializeField] public PlayerState playerState;
-	[SerializeField] public TMP_Text totalScoreUI;
 
 	void Awake()
 	{
@@ -34,7 +31,6 @@ public class UIManager : MonoBehaviour
 		HidePaused();
 		currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
 		gameOverObjects = GameObject.FindGameObjectsWithTag("GameOverUITag");
-		HideGameOver();
 	}
 
 	// Update is called once per frame
@@ -57,10 +53,6 @@ public class UIManager : MonoBehaviour
 			}
 		}
 
-		if (playerState.isDead)
-		{
-			ShowGameOver();
-		}		
 	}
 
 
@@ -126,35 +118,6 @@ public class UIManager : MonoBehaviour
 	{
 		previousSceneIndex = currentSceneIndex;
 		currentSceneIndex = scene.buildIndex;
-	}
-
-	// shows game over menu
-	public void ShowGameOver()
-	{
-		foreach (GameObject g in gameOverObjects)
-		{
-			g.SetActive(true);
-		}
-		Time.timeScale = 0;
-		String totalHealth = playerUIManager.playerHealthUI.text.ToString();
-		String totalScore = playerUIManager.playerScoreUI.text.ToString();
-		String totalTime = playerUIManager.playerScoreUI.text.ToString();
-
-		totalScoreUI.text = "Score: " + totalScore + "\n" + "Time: " + totalTime;	
-
-		playerUIManager.playerHealthUI.text = "";
-		playerUIManager.playerScoreUI.text = "";
-		playerUIManager.playerTimeUI.text = "";
-
-	}
-
-	public void HideGameOver()
-	{
-		foreach (GameObject g in gameOverObjects)
-		{
-			g.SetActive(false);
-		}
-			
 	}
 
 	// quits the game

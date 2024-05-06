@@ -8,6 +8,8 @@ public class RegeneratePlayerHealth : MonoBehaviour
     [SerializeField] public int healthRegenerationCount = 1;
     [SerializeField] public int seconds = 1;
     [SerializeField] public bool isRegenerating;
+    [SerializeField] public AudioSource playerAudioSource;
+    [SerializeField] public AudioClip playerHealthRegenerationSoundEffect;
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -15,6 +17,8 @@ public class RegeneratePlayerHealth : MonoBehaviour
         {
             isRegenerating = true;
             InvokeRepeating("RegenerateHealth", 0f, 1f);
+            playerAudioSource.clip = playerHealthRegenerationSoundEffect;
+            playerAudioSource.Play();
             Invoke("StopRegeneration", 10);
             isRegenerating = false;
         }
