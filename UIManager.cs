@@ -7,18 +7,31 @@ public class UIManager : MonoBehaviour
 {
 
     GameObject[] pauseObjects;
+	private static int previousSceneIndex = -1;
+	private static int currentSceneIndex;
+
+	void Awake()
+	{
+		SceneManager.sceneLoaded += OnSceneLoaded;
+	}
+
+	void OnDestroy()
+	{
+		SceneManager.sceneLoaded -= OnSceneLoaded;
+	}
 
 	// Use this for initialization
 	void Start () {
 		Time.timeScale = 1;
 		pauseObjects = GameObject.FindGameObjectsWithTag("PauseUITag");
 		HidePaused();
+		currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
 	}
 
 	// Update is called once per frame
 	void Update () {
 
-		//uses the p button to pause and unpause the game
+		//uses the esc button to pause and unpause the game
 		if(Input.GetKeyDown(KeyCode.Escape))
 		{
 			if(Time.timeScale == 1)
@@ -68,6 +81,32 @@ public class UIManager : MonoBehaviour
 	//loads inputted level
 	public void LoadLevel(string level){
 		SceneManager.LoadScene(level);
+	}
+
+	// load previous scene
+	public void LoadPreviousLevel(string level)
+	{
+		if (previousSceneIndex != -1)
+		{
+			SceneManager.LoadScene(previousSceneIndex);
+		}
+		else
+		{
+			Debug.LogWarning("No previous cene index stored!");
+		}
+	}
+
+	private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+	{
+		previousSceneIndex = currentSceneIndex;
+		currentSceneIndex = scene.buildIndex;
+	}
+
+	// quits the game
+	public void QuitGame()
+	{
+		Debug.Log("[INFO] Quitting Game...");
+		Application.Quit();
 	}
 
 }
