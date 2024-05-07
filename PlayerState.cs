@@ -91,7 +91,8 @@ public class PlayerState : MonoBehaviour
                 collision.gameObject.CompareTag("StonePillarTop") ||
                 collision.gameObject.CompareTag("StonePillarBottom") ||
                 collision.gameObject.CompareTag("Bat") ||
-                collision.gameObject.CompareTag("spikes"))
+                collision.gameObject.CompareTag("spikes") ||
+                collision.gameObject.CompareTag("RobotEnemy"))
         {
             playerAudioSource.clip = playerDamageSoundEffect;
             playerAudioSource.Play();

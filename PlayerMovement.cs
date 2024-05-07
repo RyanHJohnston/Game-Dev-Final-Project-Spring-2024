@@ -39,6 +39,7 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         rb.gravityScale = gravityScale;
         // CreatePlayerDust();
+        
     }
 
     void Update()

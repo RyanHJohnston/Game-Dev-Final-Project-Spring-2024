@@ -9,7 +9,7 @@ public class ObjectMovement : MonoBehaviour
     void Awake()
     {
         movementSpeed = 5f;
-        if (gameObject.tag == "Bat")
+        if (gameObject.tag == "Bat" || gameObject.tag == "RobotEnemy")
         {
             movementSpeed += 5f;
         }

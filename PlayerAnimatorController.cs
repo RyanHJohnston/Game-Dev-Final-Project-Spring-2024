@@ -7,6 +7,12 @@ public class PlayerAnimatorController : MonoBehaviour
     [SerializeField] public PlayerState playerState;
     [SerializeField] private bool isJumping;
 
+
+    void Start()
+    {
+        
+    }
+
     void Update()
     {
     
