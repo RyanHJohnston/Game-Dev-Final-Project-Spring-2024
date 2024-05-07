@@ -9,6 +9,7 @@ public class BackgroundScroller : MonoBehaviour
     private float offset;
     private Material material;
 
+
     // Start is called before the first frame update
     void Start()
     {

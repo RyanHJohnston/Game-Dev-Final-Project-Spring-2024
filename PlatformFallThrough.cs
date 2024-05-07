@@ -4,15 +4,46 @@ using UnityEngine;
 
 public class PlatformFallThrough : MonoBehaviour
 {
-    // Start is called before the first frame update
+    private Collider2D collider;    
+    private bool isPlayerOnPlatform;
+
     void Start()
     {
-        
-    }
+        collider = GetComponent<Collider2D>();
+        StartCoroutine(EnableCollider());
+    }    
 
-    // Update is called once per frame
     void Update()
     {
-        
+        if (isPlayerOnPlatform && Input.GetAxisRaw("Vertical") < 0)
+        {
+            collider.enabled = false;
+        }
     }
+
+    private IEnumerator EnableCollider()
+    {
+        yield return new WaitForSeconds(0.5f);
+        collider.enabled = true;
+    }
+
+    private void SetPlayerOnPlatform(Collision2D other, bool value)
+    {
+        var player = other.gameObject.GetComponent<PlayerState>();
+        if (player != null)
+        {
+            isPlayerOnPlatform = value;
+        }
+    }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        SetPlayerOnPlatform(collision, true);
+    }
+
+    void OnCollisionExit2D(Collision2D collision)
+    {
+        SetPlayerOnPlatform(collision, true);
+    }
+
 }

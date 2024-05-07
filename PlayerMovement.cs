@@ -26,6 +26,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] public AudioSource playerSoundSource;
     [SerializeField] public AudioClip playerSoundJump;
 
+    private bool onPlatform = false;
+
+
     void Awake()
     {
         // dust.Play();
@@ -67,6 +70,11 @@ public class PlayerMovement : MonoBehaviour
 
         // uncomment to allow player to move in all directions to test collisions
         // MovePlayer();
+
+        if (Input.GetMouseButtonDown(1) && onPlatform)
+        {
+            DisablePlatformCollision();    
+        }
 
 
     }
@@ -111,7 +119,7 @@ public class PlayerMovement : MonoBehaviour
                 rb.velocity = Vector2.up * jumpForce;
                 isGrounded = false;
                 canDoubleJump = true;
-                
+
             }
             else if (canDoubleJump)
             {
@@ -125,49 +133,67 @@ public class PlayerMovement : MonoBehaviour
     // allows player to have infinite amount of jumps
     void InfiniteJump()
     {
-            if (Input.GetKeyDown(KeyCode.Mouse0))
-            {
-                rb.velocity = Vector2.up * jumpForce;
-                jumpTimeCounter = maxJumpTime;
-                isJumping = true;
-                animator.SetBool("IsJumping", true);
-                playerSoundSource.clip = playerSoundJump;
-                playerSoundSource.Play();
-            }
+        if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            rb.velocity = Vector2.up * jumpForce;
+            jumpTimeCounter = maxJumpTime;
+            isJumping = true;
+            animator.SetBool("IsJumping", true);
+            playerSoundSource.clip = playerSoundJump;
+            playerSoundSource.Play();
+        }
 
 
-            if (Input.GetKey(KeyCode.Mouse0) && isJumping == true)
+        if (Input.GetKey(KeyCode.Mouse0) && isJumping == true)
+        {
+            if (jumpTimeCounter > 0)
             {
-                if (jumpTimeCounter > 0)
-                {
-                    rb.velocity += Vector2.up * extraJumpForce * Time.deltaTime;
-                    jumpTimeCounter -= Time.deltaTime;
-                }
-                else
-                {
-                    isJumping = false;
-                    animator.SetBool("IsJumping", false);
-                }
-            }
-
-            if (rb.velocity.y < 0)
-            {
-                Debug.Log("[PLAYER] Player is Falling");
-                animator.SetBool("IsFalling", true);
+                rb.velocity += Vector2.up * extraJumpForce * Time.deltaTime;
+                jumpTimeCounter -= Time.deltaTime;
             }
             else
             {
-                animator.SetBool("IsFalling", false);
+                isJumping = false;
+                animator.SetBool("IsJumping", false);
             }
-    }
+        }
 
-    public void isOnPlatform(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Platform"))
+        if (rb.velocity.y < 0)
         {
-            Debug.Log("[PLAYER] Player is on Platform");
+            Debug.Log("[PLAYER] Player is Falling");
+            animator.SetBool("IsFalling", true);
+        }
+        else
+        {
+            animator.SetBool("IsFalling", false);
         }
     }
+
+    /*
+    if on platform and player input is right mouse click
+        disable platform/player collision for duration
+        enable platform/player collision after duration
+    */
+
+    void DisablePlatformCollision()
+    {
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, 0.5f);
+        foreach (var collider in colliders)
+        {
+            if (collider.gameObject.CompareTag("Platform"))
+            {
+               StartCoroutine(TemporarilyDisableCollider(collider)); 
+            }
+        }
+    }
+
+    private IEnumerator TemporarilyDisableCollider(Collider2D collider)
+    {
+        collider.enabled = false;
+        yield return new WaitForSeconds(0.5f);
+        collider.enabled = true;
+    }
+
 
     // check if the player collides with the ground
     void OnCollisionEnter2D(Collision2D collision)
@@ -183,13 +209,17 @@ public class PlayerMovement : MonoBehaviour
         {
             StopPlayerDust();
         }
-        isOnPlatform(collision);
+
+        if (collision.gameObject.CompareTag("Platform") && collision.gameObject.tag != "Ground")
+        {
+            onPlatform = true;
+        }
     }
 
     // creates player dust when running
     void CreatePlayerDust()
     {
-        dust.Play();        
+        dust.Play();
     }
 
     void StopPlayerDust()

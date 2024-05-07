@@ -127,8 +127,8 @@ public class PlayerState : MonoBehaviour
             StartCoroutine(BecomeInvincible(10));
             
         }
-
     }
+
 
     public IEnumerator BecomeInvincible(float duration)
     {
