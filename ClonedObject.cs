@@ -18,7 +18,7 @@ public class ClonedObject : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if ((collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Enemy")) && gameObject.tag != "StonePillarBottom" && gameObject.tag != "StonePillarTop" && gameObject.tag != "Platform" && gameObject.tag != "Bat")
+        if ((collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Enemy")) && gameObject.tag != "StonePillarBottom" && gameObject.tag != "StonePillarTop" && gameObject.tag != "Platform" && gameObject.tag != "Bat" && gameObject.tag != "spikes")
         {
             Destroy(gameObject);            
         }

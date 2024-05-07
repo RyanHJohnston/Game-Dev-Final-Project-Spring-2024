@@ -20,15 +20,22 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] bool canDoubleJump;
     private Collision2D collision;
     public Animator animator;
+    [SerializeField] public ParticleSystem dust;
 
     /* audio */
     [SerializeField] public AudioSource playerSoundSource;
     [SerializeField] public AudioClip playerSoundJump;
 
+    void Awake()
+    {
+        // dust.Play();
+    }
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         rb.gravityScale = gravityScale;
+        // CreatePlayerDust();
     }
 
     void Update()
@@ -170,9 +177,24 @@ public class PlayerMovement : MonoBehaviour
             isGrounded = true;
             canDoubleJump = false;
             isJumping = false;
+            CreatePlayerDust();
         }
-
+        else
+        {
+            StopPlayerDust();
+        }
         isOnPlatform(collision);
+    }
+
+    // creates player dust when running
+    void CreatePlayerDust()
+    {
+        dust.Play();        
+    }
+
+    void StopPlayerDust()
+    {
+        dust.Stop();
     }
 
 }

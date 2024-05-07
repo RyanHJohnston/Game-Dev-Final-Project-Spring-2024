@@ -136,15 +136,15 @@ public class UIManager : MonoBehaviour
 			g.SetActive(true);
 		}
 		Time.timeScale = 0;
-		String totalHealth = playerUIManager.playerHealthUI.text.ToString();
-		String totalScore = playerUIManager.playerScoreUI.text.ToString();
-		String totalTime = playerUIManager.playerScoreUI.text.ToString();
+		// String totalHealth = playerUIManager.playerHealthUI.text.ToString();
+		// String totalScore = playerUIManager.playerScoreUI.text.ToString();
+		// String totalTime = playerUIManager.playerTimeUI.ToString();
 
-		totalScoreUI.text = "Score: " + totalScore + "\n" + "Time: " + totalTime;	
+		// totalScoreUI.text = totalScore + "\n" + totalTime;	
 
-		playerUIManager.playerHealthUI.text = "";
-		playerUIManager.playerScoreUI.text = "";
-		playerUIManager.playerTimeUI.text = "";
+		// playerUIManager.playerHealthUI.text = "";
+		// playerUIManager.playerScoreUI.text = "";
+		// playerUIManager.playerTimeUI.text = "";
 
 	}
 
@@ -154,6 +154,7 @@ public class UIManager : MonoBehaviour
 		{
 			g.SetActive(false);
 		}
+		Time.timeScale = 1;
 			
 	}
 

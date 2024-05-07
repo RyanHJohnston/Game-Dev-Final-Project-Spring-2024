@@ -9,7 +9,6 @@ public class MenuNavigationUI : MonoBehaviour
 {
 
 	GameObject[] pauseObjects;
-	GameObject[] gameOverObjects;
 	private static int previousSceneIndex = -1;
 	private static int currentSceneIndex;
 
@@ -30,7 +29,6 @@ public class MenuNavigationUI : MonoBehaviour
 		pauseObjects = GameObject.FindGameObjectsWithTag("PauseUITag");
 		HidePaused();
 		currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-		gameOverObjects = GameObject.FindGameObjectsWithTag("GameOverUITag");
 	}
 
 	// Update is called once per frame
